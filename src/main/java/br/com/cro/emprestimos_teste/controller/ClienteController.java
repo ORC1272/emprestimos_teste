@@ -1,14 +1,11 @@
 package br.com.cro.emprestimos_teste.controller;
 
 import br.com.cro.emprestimos_teste.Dto.ClienteDto;
-import br.com.cro.emprestimos_teste.Dto.ContaDto;
 import br.com.cro.emprestimos_teste.model.ApiResponse;
-import br.com.cro.emprestimos_teste.repository.ClienteRepository;
 import br.com.cro.emprestimos_teste.service.ClienteService;
 import br.com.cro.emprestimos_teste.service.ContaService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,33 +32,33 @@ public class ClienteController {
 
     }
 
-    @PutMapping("/clientes/{clienteId}")
+    @PutMapping("/clientes/{id}")
 
     public ResponseEntity<ClienteDto> upgradeCliente(
             @RequestBody ClienteDto clienteDto,
-            @PathVariable UUID clienteId) {
-        ClienteDto updateCliente = this.clienteService.updateCliente(clienteDto, clienteId);
+            @PathVariable UUID id) {
+        ClienteDto updateCliente = this.clienteService.updateCliente(clienteDto, id);
         return new ResponseEntity<ClienteDto>(updateCliente, HttpStatus.OK);
     }
 
-    @DeleteMapping("/clientes/{clienteId}")
+    @DeleteMapping("/clientes/{id}")
 
-    public ApiResponse deleteCliente(@PathVariable UUID clienteId){
-        this.clienteService.deleteCliente(clienteId);
+    public ApiResponse deleteCliente(@PathVariable UUID id){
+        this.clienteService.deleteCliente(id);
         return new ApiResponse("cliente deleteado com sucesso", true);
     }
 
-    @GetMapping("/clientes/{clienteId}")
+    @GetMapping("/clientes/{id}")
 
-    public ResponseEntity<ClienteDto> getClienteId(@PathVariable UUID clienteId){
-        ClienteDto clienteDto = this.clienteService.getClienteById(clienteId);
+    public ResponseEntity<ClienteDto> getClienteById(@PathVariable UUID id){
+        ClienteDto clienteDto = this.clienteService.getClienteById(id);
         return new ResponseEntity<ClienteDto>(clienteDto, HttpStatus.OK);
     }
 
     @GetMapping("/clientes")
 
-    public ResponseEntity<List<ClienteDto>> getAllClienteDto(){
-        List<ClienteDto> clienteDtoList = this.clienteService.getAllClienteDto();
+    public ResponseEntity<List<ClienteDto>> getAllClientes(){
+        List<ClienteDto> clienteDtoList = this.clienteService.getAllClientes();
         return ResponseEntity.ok(clienteDtoList);
     }
 

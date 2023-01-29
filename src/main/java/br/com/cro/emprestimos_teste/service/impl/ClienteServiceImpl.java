@@ -20,52 +20,50 @@ import java.util.stream.Collectors;
 public class ClienteServiceImpl implements ClienteService {
 
 
-    private final ModelMapper modelMapper;
     private final ClienteRepository clienteRepository;
+    private final ModelMapper modelMapper;
 
 
     @Override
     public ClienteDto createCliente(ClienteDto clienteDto) {
-//        Conta conta = this.contaRepository.findById(contaId)
-//                .orElseThrow(()-> new ResourceNotFoundException("Conta", "Conta id", contaId));
         Cliente cliente = this.modelMapper.map(clienteDto, Cliente.class);
         Cliente newCliente = this.clienteRepository.save(cliente);
         return this.modelMapper.map(newCliente, ClienteDto.class);
 
     }
 
+
     @Override
-    public ClienteDto updateCliente(ClienteDto clienteDto, UUID clienteId) {
-        Cliente cliente = this.clienteRepository.findById(clienteId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cliente id", clienteId));
+    public ClienteDto updateCliente(ClienteDto clienteDto, UUID id) {
+        Cliente cliente = this.clienteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cliente id", id));
         Cliente updateCliente = this.clienteRepository.save(cliente);
         return this.modelMapper.map(updateCliente, ClienteDto.class);
     }
 
     @Override
-    public void deleteCliente(UUID clienteId) {
-        Cliente cliente = this.clienteRepository.findById(clienteId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cliente id", clienteId));
-        this.clienteRepository.deleteById(clienteId);
+    public void deleteCliente(UUID id) {
+        Cliente cliente = this.clienteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cliente id", id));
+        this.clienteRepository.delete(cliente);
 
     }
 
     @Override
-    public List<ClienteDto> getAllClienteDto() {
-        List<Cliente> clienteList = (List<Cliente>) this.clienteRepository.findAll();
-        List<ClienteDto> clienteDtoList = clienteList.stream()
-                .map((cliente) -> this.modelMapper.map(cliente, ClienteDto.class)).collect(Collectors.toList());
-        return clienteDtoList;
-    }
-
-    @Override
-    public ClienteDto getClienteById (UUID clienteId){
-        Cliente cliente = this.clienteRepository.findById(clienteId)
-                .orElseThrow(()-> new ResourceNotFoundException("Cliente", "cliente id", clienteId));
+    public ClienteDto getClienteById (UUID id){
+        Cliente cliente = this.clienteRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Cliente", "cliente id", id));
         return this.modelMapper.map(cliente, ClienteDto.class);
     }
 
-
+    @Override
+    public List<ClienteDto> getAllClientes() {
+        List<Cliente> clienteList = this.clienteRepository.findAll();
+        List<ClienteDto> clienteDtoList = clienteList.stream()
+                .map((cliente) -> this.modelMapper.map(cliente, ClienteDto.class))
+                .collect(Collectors.toList());
+        return clienteDtoList;
+    }
 
 }
 

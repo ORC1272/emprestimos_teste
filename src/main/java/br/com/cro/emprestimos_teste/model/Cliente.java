@@ -1,23 +1,25 @@
 package br.com.cro.emprestimos_teste.model;
-
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.br.CPF;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.*;
 
 
 @Entity
+@NoArgsConstructor
 @Table(name="clientes")
 @Data
-@NoArgsConstructor
-
 public class Cliente {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, unique = true, nullable = false)
-    private UUID clienteId;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", updatable = false, nullable = false)
+    @Type(type = "uuid-char")
+    private UUID id;
+
 
     @Column(
             name="cpf", nullable = false
@@ -44,15 +46,15 @@ public class Cliente {
     )
     private TipoConta tipoConta;
 
-//    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY,
-//			cascade = CascadeType.ALL)
-//	Set<Conta> contas;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private Conta conta;
 
 
 
-
-
-
+//    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+//	private Set<Conta> contas = new HashSet<>();
 
 //    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private List<Conta> contaList = new ArrayList<>();

@@ -1,8 +1,8 @@
 package br.com.cro.emprestimos_teste.model;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.UUID;
@@ -15,8 +15,11 @@ import java.util.UUID;
 @Data
 public class Conta {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID contaId;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name="id", updatable = false, nullable = false)
+    @Type(type = "uuid-char")
+    private UUID id;
 
     private String agenciaNumero;
 
@@ -32,10 +35,9 @@ public class Conta {
 
     private TipoBloqueio tipoBloqueio;
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "cliente_id", nullable = false)
-//    Cliente cliente;
+       @JsonIgnore
+       @OneToOne(mappedBy = "conta")
+       private Cliente cliente;
 
 
 

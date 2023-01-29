@@ -13,21 +13,18 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class EmprestimosTesteApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EmprestimosTesteApplication.class, args);
-	}
-
-//	@Bean
-//	CommandLineRunner commandLineRunner(ClienteRepository clienteRepository ){
-//		return args -> {
-//			Cliente maria = new Cliente();
-//			clienteRepository.save(new Cliente(maria);
-//
-//		}
-//	}
 	@Bean
 	public ModelMapper modelMapper(){
 		return new ModelMapper();
 
 	}
-}
+
+	public static void main(String[] args) {
+		SpringApplication.run(EmprestimosTesteApplication.class, args);
+	}
+
+
+
+	}
+
+

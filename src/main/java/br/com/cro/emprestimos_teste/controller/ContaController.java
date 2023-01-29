@@ -27,25 +27,25 @@ public class ContaController {
 
     }
 
-    @PutMapping("/contas/{contaId}")
+    @PutMapping("/contas/{id}")
     public ResponseEntity<ContaDto> updateConta(
             @RequestBody ContaDto contaDto,
-            @PathVariable UUID contaID){
-        ContaDto updateConta = this.contaService.updateConta(contaDto, contaID);
+            @PathVariable UUID id){
+        ContaDto updateConta = this.contaService.updateConta(contaDto, id);
         return new ResponseEntity<ContaDto>(updateConta, HttpStatus.CREATED);
 
     }
 
-    @DeleteMapping("/contas/{contaId}")
-    public ApiResponse deleteConta(@PathVariable UUID contaID){
-        this.contaService.deleteConta(contaID);
+    @DeleteMapping("/contas/{id}")
+    public ApiResponse deleteConta(@PathVariable UUID id){
+        this.contaService.deleteConta(id);
         return new ApiResponse("conta deletada com sucesso", true);
     }
 
-    @GetMapping("/contas/{contaId}")
+    @GetMapping("/contas/{id}")
 
-    public ResponseEntity<ContaDto> getClienteId(@PathVariable UUID ContaId){
-        ContaDto contaDto = this.contaService.getClienteById(ContaId);
+    public ResponseEntity<ContaDto> getId(@PathVariable UUID id){
+        ContaDto contaDto = this.contaService.getClienteById(id);
         return new ResponseEntity<ContaDto>(contaDto, HttpStatus.OK);
     }
 

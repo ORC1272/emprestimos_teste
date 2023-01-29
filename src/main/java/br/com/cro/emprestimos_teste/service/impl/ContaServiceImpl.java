@@ -20,8 +20,9 @@ import java.util.stream.Collectors;
 @Transactional
 public class ContaServiceImpl implements ContaService {
 
-    private final ModelMapper modelMapper;
     private final ContaRepository contaRepository;
+    private final ModelMapper modelMapper;
+
 
     @Override
     public ContaDto createConta(ContaDto contaDto) {
@@ -32,24 +33,32 @@ public class ContaServiceImpl implements ContaService {
     }
 
     @Override
-    public ContaDto updateConta(ContaDto contaDto, UUID contaId) {
-        Conta conta = this.contaRepository.findById(contaId)
-                .orElseThrow(()-> new ResourceNotFoundException("Conta", "conta id", contaId));
-        Conta updateConta = this.contaRepository.save(conta);
-        return this.modelMapper.map(updateConta, ContaDto.class);
+    public ContaDto updateConta(ContaDto contaDto, UUID id) {
+        Conta conta = this.contaRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Conta", "conta id", id));
+        conta.setAgenciaNumero(conta.getAgenciaNumero());
+        conta.setNumeroContaSemDigito(conta.getNumeroContaSemDigito());
+        conta.setNumeroDigitoConta(conta.getNumeroDigitoConta());
+        conta.setSegmentoConta(conta.getSegmentoConta());
+        conta.setTipoLimite(conta.getTipoLimite());
+        conta.setTipoBloqueio(conta.getTipoBloqueio());
+        this.contaRepository.save(conta);
+        //Conta contanew =this.modelMapper.map(contaDto, Conta.class);
+//        Conta conta = this.contaRepository.save(conta);
+        return this.modelMapper.map(conta, ContaDto.class);
     }
 
     @Override
-    public void deleteConta(UUID contaId) {
-        this.contaRepository.findById(contaId)
-                .orElseThrow(()-> new ResourceNotFoundException("Conta", "conta id", contaId));
-        this.contaRepository.deleteById(contaId);
+    public void deleteConta(UUID id) {
+        this.contaRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Conta", "conta id", id));
+        this.contaRepository.deleteById(id);
     }
 
     @Override
-    public ContaDto getClienteById(UUID contaId) {
-        Conta conta = this.contaRepository.findById(contaId)
-                .orElseThrow(()-> new ResourceNotFoundException("Conta", "conta id", contaId));
+    public ContaDto getClienteById(UUID id) {
+        Conta conta = this.contaRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Conta", "conta id", id));
         return this.modelMapper.map(conta, ContaDto.class);
 
     }

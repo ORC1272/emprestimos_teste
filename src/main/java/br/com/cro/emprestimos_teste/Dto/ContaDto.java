@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ContaDto {
 
-    private UUID contaId;
+    private UUID id;
     private @NotBlank String agenciaNumero;
     private @NotBlank String numeroContaSemDigito;
     private @NotBlank String numeroDigitoConta;
